@@ -1,3 +1,14 @@
+
+//message display module
+const messageDisplayer = (() =>{
+  const displayMessage = (message) =>{
+    document.querySelector("#message").innerHTML = message;
+  }
+  return {
+    displayMessage
+  };
+})();
+
 //creating IIFE for the gameboard handle all game logics
 /*const iife = ((){
    secret functions and methods
@@ -36,6 +47,7 @@ const gameBoard = (() =>{
     }
 })(); 
 
+
 //creating a function for the players
 const createPlayer = (name, mark) =>{
   return {
@@ -54,11 +66,22 @@ const gameController = (() => {
   
   //function to create logic for the game to start
   const startGame = () =>{
+    //taking player values from the input
+    const player1 = document.querySelector("#player1").value.trim();
+    const player2 = document.querySelector("#player2").value.trim();
+
+    // Ensure games only starts if both players are named
+    if (!player1 || !player2) {
+      alert("PLEASE ENTER NAME OF BOTH PLAYERS TO START THE GAME!")
+      return;
+    }
+
     //factory to create player so it can be used multiple time
     players = [
       createPlayer(document.querySelector("#player1").value, "X"),
       createPlayer(document.querySelector("#player2").value, "O")
     ]
+
     currentPlayerIndex = 0;
     gameOver = false;
     gameBoard.displayBoard();
@@ -67,6 +90,9 @@ const gameController = (() => {
 
   //creating the handle click function
   const handleClick = (e) =>{
+    if (gameOver){
+      return;
+    }
     let index = parseInt(e.target.id.split("-")[1]);
 
     // prevent overwriting an already filled square
@@ -79,10 +105,10 @@ const gameController = (() => {
     if(checkforWin(gameBoard.getgameBoard(),players[currentPlayerIndex].mark)){
       gameOver = true;
     //dsplaying the winner an tie  
-      messageDisplay.displayMessage(`${players[currentPlayerIndex].name} WINS!`)
+      messageDisplayer.displayMessage(`${players[currentPlayerIndex].name} WINS!`)
     }else if (checkfortie(gameBoard.getgameBoard())){
       gameOver = true;
-      messageDisplay.displayMessage(`IT'S A TIE`);
+      messageDisplayer.displayMessage(`IT'S A TIE`);
     }
     //allow switching between players 
     currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
@@ -94,6 +120,9 @@ const gameController = (() => {
       gameBoard.update(i,"");
     }
     gameBoard.displayBoard();
+    gameOver = false;
+    //make message from previous game disappear when you restart game
+    document.querySelector("#message").innerHTML= "";
   }
   return{
     startGame,
@@ -126,13 +155,6 @@ function checkfortie(board){
   return board.every(cell =>cell !== "")
 }
 
-//message display module
-const messageDisplay = (() =>{
-  const displayMessage = (message) =>{
-    document.querySelector("#message").innerHTML(message)
-  }
-});
-
 
 //DOM for startBtn
 const startBtn = document.querySelector("#startBtn");
@@ -146,4 +168,9 @@ const restartBtn = document.querySelector("#restartBtn");
 //Adding event listener for the restartBtn
 restartBtn.addEventListener ("click", () =>{
   gameController.restartGame();
+})
+
+//event listners for the display message
+document.querySelector("#message").addEventListener("click", () =>{
+  
 })

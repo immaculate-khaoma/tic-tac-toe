@@ -1,7 +1,7 @@
 .grid{
   display: flex;
   flex-wrap: wrap;
-  width: 306px; /* 3 squares * 100px + 2px borders */
+  width: 306px; 
   margin: 20px auto;
 }
 
@@ -48,6 +48,16 @@
   padding: 5px 5px;
   color: white;
 }
+
+.message{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px auto;
+  justify-content: center;
+  font-size: 40px;
+}
+
+
 
 
 
