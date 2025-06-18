@@ -16,7 +16,7 @@ A tic tac toe game created using HTML,CSS and Javascript as part of [The odin Pr
 Human Vs AI feature
 Game levels (easy, medium, hard)
 
-#Author
+## Author
 imma khaoma
 
 
